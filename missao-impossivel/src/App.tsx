@@ -1,5 +1,5 @@
 import { Header } from './components/Header';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import "./global.css"
 
 import Modal, { ModalHeader, ModelBody} from "./components/Modal";
@@ -16,34 +16,52 @@ const filmes = [
   {
     id: 1,
     imagem: card1,
-    titulo: "Missão impossivel 2"
+    titulo: "Missão impossivel 2",
+		descricao : "ISSO ISSO ISSO"
   },
   {
     id: 2,
     imagem: card2,
-    titulo: "Missão impossivel 3"
+    titulo: "Missão impossivel 3",
+		descricao : "ISSO ISSO ISSO"
   },
   {
     id: 3,
     imagem: card3,
-    titulo: "Missão impossivel Nação secreta"
+    titulo: "Missão impossivel Nação secreta",
+		descricao : "ISSO ISSO ISSO"
   },
   {
     id: 4,
     imagem: card4,
-    titulo: "Missão impossivel acerto de contas"
-  },  
+    titulo: "Missão impossivel acerto de contas",
+		descricao : "ISSO ISSO ISSO"
+  },
 ]
 
 function App() {
-  
-  const [modalIsOpen, setModalOpen] = useState(true);
-  
+
+	const refFilmeModal = useRef({
+		id: 1,
+		titulo: '',
+		descricao : ''
+	})
+
+  const [modalIsOpen, setOpen] = useState(false);
+
+	function handleOpenModal(filme: any){
+		refFilmeModal.current = filme
+		setOpen(true)
+	}
+	function handleCloseModal(){
+		setOpen(false)
+	}
+
   return (
     <React.Fragment>
       <Header tituloProp='Missão chinessa' />
 
-       
+
 
       <div style={{
         display: "flex",
@@ -53,21 +71,20 @@ function App() {
       }}>
       {
         filmes.map(filme => (
-          <>
-            <Card imagem={filme.imagem} titulo={filme.titulo}  />
-            <button onClick={()=> setModalOpen(true)}>Deatlhes</button>
-          </>
+          <div onClick={() =>handleOpenModal(filme)}>
+            <Card  imagem={filme.imagem} titulo={filme.titulo} />
+          </div>
         ))
       }
       </div>
-      
 
-      <Modal isOpenProp={modalIsOpen}>
+
+      <Modal isOpen={modalIsOpen} onClose={handleCloseModal}>
         <ModalHeader>
-          <h2>Chaves</h2>
+          <h2>{refFilmeModal.current.titulo}</h2>
         </ModalHeader>
         <ModelBody>
-          <h3>Todos atentos olhando a TV</h3>
+          <h3>{refFilmeModal.current.descricao}</h3>
         </ModelBody>
       </Modal>
 

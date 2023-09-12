@@ -5,16 +5,11 @@ import React, { ReactNode, useState, useEffect } from "react"
 
 interface IModal {
     children: ReactNode;
-    isOpenProp: boolean;
+    isOpen: boolean;
+		onClose(): void
 }
 
-const Modal = ({children, isOpenProp}:IModal) => {
-
-    const [isOpen, setOpen] = useState<boolean>(isOpenProp)
-
-    useEffect(()=>{
-        console.log(isOpen)
-    },[isOpen])
+const Modal = ({children, isOpen, onClose}:IModal) => {
 
 
     return (
@@ -36,9 +31,9 @@ const Modal = ({children, isOpenProp}:IModal) => {
                 >
                     <span
                         className="modal_close"
-                        onClick={()=> setOpen(false)}
+                        onClick={onClose}
                     >
-                        &times;
+                      &times;
                     </span>
 
                     {children}
